@@ -1,0 +1,5 @@
+[phases.setup]
+nixPkgs = ["python311", "python311Packages.pip"]
+
+[start]
+cmd = "python3 -m Lust"
