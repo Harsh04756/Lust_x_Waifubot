@@ -11,12 +11,14 @@ ags = {}
 
 rarity_map = {
     1: "⚪ Common",
-    2: "☘️ Medium", 
+    2: "☘️ Medium",
     3: "🔴 Rare",
     4: "🟡 Legendary",
-    5: "🔮 Limited Edition",
-    6: "🏵️ Seasonal",
-    7: "💮 Special Edition"
+    5: "💋 Nude",
+    6: "🔮 Limited",
+    7: "🐦‍🔥 Exotic",
+    8: "🎐 Devine",
+    9: "💦 Wet"
 }
 
 def is_allowed_time():
@@ -31,13 +33,15 @@ def is_allowed_time():
 def get_rarity_price_multiplier(rarity_number):
     """Get price multiplier based on rarity number"""
     multipliers = {
-        1: 1.0,   
-        2: 1.5,   
-        3: 2.0,   
-        4: 3.0,   
-        5: 4.0,   
-        6: 5.0,   
-        7: 6.0    
+        1: 1.0,    # Common
+        2: 1.5,    # Medium
+        3: 2.5,    # Rare
+        4: 4.0,    # Legendary
+        5: 6.0,    # Nude
+        6: 8.0,    # Limited
+        7: 12.0,   # Exotic
+        8: 20.0,   # Devine
+        9: 10.0,   # Wet
     }
     return multipliers.get(rarity_number, 1.0)
 
@@ -69,7 +73,7 @@ async def gbuy(client, message):
     rarity_value = character.get('rarity')
     
 
-    restricted_rarities = [5, 6, 7]  
+    restricted_rarities = [7, 8, 9]  # Exotic, Devine, Wet cannot be gbuy'd
     if isinstance(rarity_value, int) and rarity_value in restricted_rarities:
         await message.reply_text(capsify("❌ This character cannot be purchased with /gbuy command."))
         return

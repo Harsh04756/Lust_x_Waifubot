@@ -55,18 +55,36 @@ async def spawn_character(chat_id):
             5: "💋 Nude",
             6: "🔮 Limited",
             7: "🐦‍🔥 Exotic",
-            8: "🎐 Celestial Beauty",
+            8: "🎐 Devine",
             9: "💦 Wet"
         }
 
-        allowed_rarities = [rarity_map[i] for i in range(1, 5)]
+        # Spawn weights — Devine 0.1% chance, others scaled accordingly
+        rarity_weights = {
+            "⚪ Common":    55.0,
+            "☘️ Medium":   22.0,
+            "🔴 Rare":     12.0,
+            "🟡 Legendary": 6.0,
+            "💋 Nude":      2.5,
+            "🔮 Limited":   1.5,
+            "🐦‍🔥 Exotic":  0.6,
+            "🎐 Devine":    0.1,
+            "💦 Wet":       0.3,
+        }
 
-        all_characters = await collection.find({'rarity': {'$in': allowed_rarities}}).to_list(length=None)
+        all_characters = await collection.find({}).to_list(length=None)
 
         if not all_characters:
             return False
 
-        character = random.choice(all_characters)
+        # Filter characters that have a valid rarity with a defined weight
+        valid_characters = [c for c in all_characters if c.get('rarity') in rarity_weights]
+
+        if not valid_characters:
+            valid_characters = all_characters
+
+        weights = [rarity_weights.get(c.get('rarity', ''), 1.0) for c in valid_characters]
+        character = random.choices(valid_characters, weights=weights, k=1)[0]
 
         spawned_characters[chat_id] = character
 
@@ -137,7 +155,7 @@ async def remove_spawn_after_timeout(chat_id, character, timeout):
         del spawned_characters[chat_id]
 
 
-@app.on_message(filters.command("slave"))
+@app.on_message(filters.command("fetch"))
 async def guess(_, message):
 
     chat_id = message.chat.id
@@ -199,10 +217,10 @@ async def guess(_, message):
 
         success_message = capsify(
             f"🎊 CONGRATULATIONS {message.from_user.first_name}!\n\n"
-            f"🌬️ WAIFU: {character['name']}\n"
-            f"🧧 ANIME: {character['anime']}\n"
-            f"🪼 RARITY: {character['rarity']}\n\n"
-            f"🕊️ CHARACTER ADDED TO YOUR COLLECTION!"
+            f"🌬️ NAME: {character['name']}\n"
+            f"🍹 ANIME: {character['anime']}\n"
+            f"🎐 RARITY: {character['rarity']}\n\n"
+            f"💝 CHARACTER ADDED TO YOUR COLLECTION!"
         )
 
         await message.reply_text(

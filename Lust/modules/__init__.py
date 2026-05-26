@@ -43,15 +43,10 @@ async def get_price(id: int):
     return None
 
 async def get_character(id: int):
-    return await collection.find_one({
-        'id': id,
-        'rarity': {'$nin': ['💋 Aura', '❄️ Winter']}  
-    })
+    return await collection.find_one({'id': id})
 
 async def get_character_ids() -> list:
-    all_characters = await collection.find({
-        'rarity': {'$nin': ['💋 Aura', '❄️ Winter']}  
-    }).to_list(length=None)
+    all_characters = await collection.find({}).to_list(length=None)
     return [x['id'] for x in all_characters]
 
 async def get_image_and_caption(id: int):

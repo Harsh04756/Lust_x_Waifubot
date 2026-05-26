@@ -11,9 +11,11 @@ rarity_map = {
     2: "☘️ Medium",
     3: "🔴 Rare",
     4: "🟡 Legendary",
-    5: "🔮 Limited Edition",
-    6: "🏵️ Seasonal",
-    7: "💮 Special Edition"
+    5: "💋 Nude",
+    6: "🔮 Limited",
+    7: "🐦‍🔥 Exotic",
+    8: "🎐 Devine",
+    9: "💦 Wet"
 }
 
 rarity_name_to_code = {
@@ -21,9 +23,11 @@ rarity_name_to_code = {
     "medium": 2,
     "rare": 3,
     "legendary": 4,
-    "limited": 5,
-    "seasonal": 6,
-    "special": 7,
+    "nude": 5,
+    "limited": 6,
+    "exotic": 7,
+    "devine": 8,
+    "wet": 9,
     "all": "all"
 }
 
@@ -40,8 +44,9 @@ async def cmode(client, message):
     cmode_buttons = [
         [IKB("⚪ Common", f"cmode:common:{user_id}"), IKB("☘️ Medium", f"cmode:medium:{user_id}")],
         [IKB("🔴 Rare", f"cmode:rare:{user_id}"), IKB("🟡 Legendary", f"cmode:legendary:{user_id}")],
-        [IKB("🔮 Limited", f"cmode:limited:{user_id}"), IKB("🏵️ Seasonal", f"cmode:seasonal:{user_id}")],
-        [IKB("💮 Special", f"cmode:special:{user_id}"), IKB("All", f"cmode:all:{user_id}")]
+        [IKB("💋 Nude", f"cmode:nude:{user_id}"), IKB("🔮 Limited", f"cmode:limited:{user_id}")],
+        [IKB("🐦‍🔥 Exotic", f"cmode:exotic:{user_id}"), IKB("🎐 Devine", f"cmode:devine:{user_id}")],
+        [IKB("💦 Wet", f"cmode:wet:{user_id}"), IKB("All", f"cmode:all:{user_id}")]
     ]
     reply_markup = IKM(cmode_buttons)
 

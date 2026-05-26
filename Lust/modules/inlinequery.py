@@ -31,10 +31,11 @@ RARITY_MAP={
 2:"☘️ Medium",
 3:"🔴 Rare",
 4:"🟡 Legendary",
-5:"🔮 Limited Edition",
-6:"🏵️ Seasonal",
-7:"💮 Special Edition",
-8:"🎥 Animation"
+5:"💋 Nude",
+6:"🔮 Limited",
+7:"🐦‍🔥 Exotic",
+8:"🎐 Devine",
+9:"💦 Wet"
 }
 
 CATEGORY_MAP={

@@ -3,15 +3,17 @@ from pyrogram.types import Message
 from random import choices
 from . import db, collection, user_collection, app, dev_filter
 
-# Updated rarity percentages for the new 1-7 system
+# Rarity weights for the 1-9 system
 rarity_percentages = {
-    "⚪ Common": 50,           # 1
-    "☘️ Medium": 30,          # 2  
-    "🔴 Rare": 20,            # 3
-    "🟡 Legendary": 10,       # 4
-    "🔮 Limited Edition": 5,  # 5
-    "🏵️ Seasonal": 3,        # 6
-    "💮 Special Edition": 1,  # 7
+    "⚪ Common":    55,   # 1
+    "☘️ Medium":   22,   # 2
+    "🔴 Rare":     12,   # 3
+    "🟡 Legendary": 6,   # 4
+    "💋 Nude":      2,   # 5
+    "🔮 Limited":   1,   # 6
+    "🐦‍🔥 Exotic":  1,   # 7
+    "🎐 Devine":    0,   # 8 — not given via rand giver
+    "💦 Wet":       1,   # 9
 }
 
 @app.on_message(filters.command("giver") & dev_filter)
@@ -35,7 +37,7 @@ async def giverandom(client: Client, message: Message):
             return
 
         all_slaves = await collection.find({}).to_list(None)
-        valid_slaves = [slave for slave in all_slaves if 'rarity' in slave]
+        valid_slaves = [slave for slave in all_slaves if 'rarity' in slave and rarity_percentages.get(slave['rarity'], 0) > 0]
         slave_weights = [rarity_percentages.get(slave['rarity'], 0) for slave in valid_slaves]
         random_slaves = choices(valid_slaves, weights=slave_weights, k=slave_count)
 

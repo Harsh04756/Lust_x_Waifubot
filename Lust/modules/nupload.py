@@ -12,9 +12,11 @@ rarity_map = {
     2: "☘️ Medium",
     3: "🔴 Rare",
     4: "🟡 Legendary",
-    5: "💮 Special Edition",
-    6: "🔮 Limited Edition",
-    7: "🏵️ Seasonal"
+    5: "💋 Nude",
+    6: "🔮 Limited",
+    7: "🐦‍🔥 Exotic",
+    8: "🎐 Devine",
+    9: "💦 Wet"
 }
 
 
@@ -110,7 +112,7 @@ async def upload(client: Client, message: Message):
 
         rarity_num = int(rarity_str)
         if rarity_num not in rarity_map:
-            await message.reply_text("❌ Invalid rarity! Use 1–7")
+            await message.reply_text("❌ Invalid rarity! Use 1–9")
             return
 
         rarity = rarity_map[rarity_num]
