@@ -9,5 +9,5 @@ SUPPORT_CHAT = "+hye3u0fBPO1lNjM1"
 UPDATE_CHAT = "lustXwaifu"
 BOT_USERNAME = "AniLust_Bot"
 CHARA_CHANNEL_ID = -1003852106890
-MONGO_URL = "mongodb+srv://ra5836016_db_user:58360162004@cluster0.bqw1y2r.mongodb.net/?appName=Cluster0"
+MONGO_URL = "mongodb+srv://lustbot:lustbot@lustbot.dhfa9ty.mongodb.net/?appName=lustbot"
 DATABASE_NAME = "LustXDatabase"
