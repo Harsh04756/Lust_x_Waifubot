@@ -1,10 +1,10 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from . import app, capsify, user_collection
-import OWNER_ID
+from Lust.config import OWNER_ID
 
 
-@app.on_message(filters.command("resetbal") & OWNER_ID)
+@app.on_message(filters.command("resetbal") & filters.user(OWNER_ID))
 async def reset_balance(client: Client, message: Message):
 
     if not message.from_user:
@@ -12,17 +12,15 @@ async def reset_balance(client: Client, message: Message):
 
     args = message.text.split(maxsplit=2)
 
-    
     if len(args) < 2:
         return await message.reply_text(
             capsify(
                 "USAGE:\n"
-                "/restebal all\n"
-                "/restebal <userid> <username>"
+                "/resetbal all\n"
+                "/resetbal <userid> <username>"
             )
         )
 
-    
     if args[1].lower() == "all":
         result = await user_collection.update_many(
             {},
@@ -42,7 +40,6 @@ async def reset_balance(client: Client, message: Message):
             )
         )
 
-  
     try:
         target_id = int(args[1])
     except ValueError:
@@ -75,4 +72,5 @@ async def reset_balance(client: Client, message: Message):
             f"👽 USER : {target_name}\n"
             f"🪪 ID   : {target_id}"
         )
-    )
+        )
+        
