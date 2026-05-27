@@ -93,7 +93,7 @@ async def handle_dice(client, message, receiver_id):
         dice_message = await client.send_dice(chat_id=message.chat.id)
         value = int(dice_message.dice.value)
 
-        if value in [1, 2, 5, 6]:
+        if value in [1, 6]:
             unique_characters = await get_unique_characters(receiver_id)
             if not unique_characters:
                 await send_error_report(client, message, "Failed to retrieve characters. Please try again later.")
