@@ -130,19 +130,21 @@ async def handle_dice(client, message, receiver_id):
 @block_dec
 async def dice_command(client, message):
     user_id = message.from_user.id
+
     if temp_block(user_id):
         return
 
     last_roll_time = await get_cooldown_from_db(user_id)
+
     if last_roll_time:
         cooldown_time = (datetime.utcnow() - last_roll_time).total_seconds()
+
         if cooldown_time < 45:
-            remaining_time = 45- cooldown_time
-            hours, remainder = divmod(int(remaining_time), 3600)
-            minutes, seconds = divmod(remainder, 60)
+            remaining_time = int(45 - cooldown_time)
+
             await client.send_message(
                 chat_id=message.chat.id,
-                text=capsify(f"Please wait {hours} hours, {minutes} minutes, and {seconds} seconds before rolling again."),
+                text=capsify(f"Please wait {remaining_time} seconds before rolling again."),
                 reply_to_message_id=message.id
             )
             return
@@ -159,4 +161,3 @@ async def dice_command(client, message):
 
     receiver_id = message.from_user.id
     await handle_dice(client, message, receiver_id)
-
