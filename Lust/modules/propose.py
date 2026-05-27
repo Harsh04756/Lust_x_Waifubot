@@ -7,14 +7,13 @@ from Lust import collection, user_collection, user_totals_collection
 from . import add as add_balance, deduct as deduct_balance, app, capsify
 from .block import block_dec, temp_block
 
-# Updated rarity map for new system — False means cannot be proposed
 rarity_map = {
     "⚪ Common":    True,
     "☘️ Medium":   True,
     "🔴 Rare":     True,
     "🟡 Legendary": True,
     "💋 Nude":     False,
-    "🔮 Limited":  False,
+    "🔮 Limited":  True,
     "🐦‍🔥 Exotic": False,
     "🎐 Devine":   False,
     "💦 Wet":      False,
