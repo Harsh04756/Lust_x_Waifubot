@@ -1,9 +1,9 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from . import app, dev_filter, capsify, user_collection
+from . import app, OWNER_ID, capsify, user_collection
 
 
-@app.on_message(filters.command("restebal") & dev_filter)
+@app.on_message(filters.command("resetbal") & OWNER_ID)
 async def reset_balance(client: Client, message: Message):
 
     if not message.from_user:
