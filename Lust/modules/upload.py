@@ -100,7 +100,7 @@ async def upload_character(client: Client, message: Message):
     rarity_number = int(rarity_match.group(1))
     price = int(price_match.group(1))
 
-    # Video uploads → auto rarity 🎥 Animation (override whatever user gave)
+
     if reply.video:
         rarity = "🎥 Animation"
     else:
@@ -117,36 +117,27 @@ async def upload_character(client: Client, message: Message):
 
 
     emoji_match = re.search(r'\[(.*?)\]', name)
-
     category_line = ""
-
     if emoji_match:
         emoji = emoji_match.group(1)
-
         if emoji in CATEGORY_MAP:
             category_line = CATEGORY_MAP[emoji]
 
-
     char_id = await get_next_character_id()
-
     added_by = message.from_user.first_name
 
-
-    final_caption = f"""OwO! Check out this character!
-
-{anime}
-{char_id}: {name}
-
-({rarity_emoji} 𝙍𝘼𝙍𝙄𝙏𝙔: {rarity_name})
-"""
-
+    # Caption format
+    final_caption = (
+        f"OwO! Check out this character!\n\n"
+        f"{anime}\n"
+        f"{char_id}: {name}\n\n"
+        f"({rarity_emoji} 𝙍𝘼𝙍𝙄𝙏𝙔: {rarity_name})\n"
+    )
 
     if category_line:
         final_caption += f"\n{category_line}\n"
 
-
     final_caption += f"\n➼ ᴀᴅᴅᴇᴅ ʙʏ: {added_by}"
-
 
     if reply.photo:
 
@@ -208,13 +199,13 @@ async def delete_character(client: Client, message: Message):
         await message.reply_text(capsify(f"❌ Character with ID {character_id} not found!"))
         return
 
-    # Delete from channel
+
     try:
         await client.delete_messages(CHARA_CHANNEL_ID, character["message_id"])
     except Exception:
         pass
 
-    # Remove from all users' collections
+    
     bulk = []
     async for user in user_collection.find():
         if "characters" in user:
@@ -338,4 +329,5 @@ async def arrange_characters(client: Client, message: Message):
     if user_bulk:
         await user_collection.bulk_write(user_bulk)
     await message.reply_text("Characters rearranged")
-    
+
+
