@@ -18,7 +18,13 @@ async def rps(update, context):
     user_id = update.effective_user.id
     if temp_block(user_id):
         return
+
     user_balance = await show_balance(user_id)
+
+
+    if user_balance is None:
+        await update.message.reply_text("You don't have any Exlix balance yet!")
+        return
 
     if user_balance < amount:
         await update.message.reply_text("Insufficient balance to make the bet.")
@@ -47,8 +53,9 @@ async def rps_button(update, context):
     user_id = update.effective_user.id
     user_balance = await show_balance(user_id)
 
-    if user_balance < amount:
-        await query.answer("Insufficient balance to make the bet.")
+    # FIX: None check
+    if user_balance is None or amount is None or user_balance < amount:
+        await query.answer("Insufficient balance to make the bet.", show_alert=True)
         return
 
     computer_choice = random.choice(['rock', 'paper', 'scissors'])
@@ -67,13 +74,13 @@ async def rps_button(update, context):
     updated_balance = await show_balance(user_id)
 
     await query.message.edit_text(
-        f"You chose {choice.capitalize()} and the computer chose {computer_choice.capitalize()}\n\n.\n{result_message} Your updated balance is {updated_balance} Exlix\n\nPlay again?",
+        f"You chose {choice.capitalize()} and the computer chose {computer_choice.capitalize()}\n\n"
+        f"{result_message} Your updated balance is {updated_balance} Exlix\n\nPlay again?",
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Play Again 🔄", callback_data='play_again')]])
     )
 
 async def play_again(update, context):
     query = update.callback_query
-
     keyboard = [
         [InlineKeyboardButton("Rock 🪨", callback_data='rock'),
          InlineKeyboardButton("Paper 📄", callback_data='paper')],
@@ -84,3 +91,4 @@ async def play_again(update, context):
 
 application.add_handler(CommandHandler("rps", rps))
 application.add_handler(CallbackQueryHandler(rps_button, pattern='^(rock|paper|scissors|play_again)$'))
+        
