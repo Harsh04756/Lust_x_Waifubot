@@ -15,11 +15,10 @@ async def global_leaderboard(client: Client, message: Message) -> None:
     ])
     leaderboard_data = await cursor.to_list(length=10)
 
-    leaderboard_message = "<b>TOP 10 GROUPS WHO GUESSED MOST CHARACTERS</b>\n\n"
+    leaderboard_message = "<b>TOP 10 GROUPS WHO SLAVED MOST CHARACTERS</b>\n\n"
 
     for i, group in enumerate(leaderboard_data, start=1):
         group_name = html.escape(group.get('group_name', 'Unknown'))
-
         if len(group_name) > 10:
             group_name = group_name[:15] + '...'
         count = group['count']
@@ -44,7 +43,6 @@ async def ctop(client: Client, message: Message) -> None:
 
     for i, user in enumerate(leaderboard_data, start=1):
         first_name = html.escape(user.get('first_name', 'Unknown'))
-
         if len(first_name) > 15:
             first_name = first_name[:15] + '...'
         character_count = user['character_count']
@@ -55,8 +53,13 @@ async def ctop(client: Client, message: Message) -> None:
 @app.on_message(filters.command("leaderboard"))
 @block_dec
 async def leaderboard(client: Client, message: Message) -> None:
+    
     cursor = user_collection.aggregate([
-        {"$project": {"username": 1, "first_name": 1, "character_count": {"$size": "$characters"}}},
+        {"$project": {
+            "username": 1,
+            "first_name": 1,
+            "character_count": {"$size": {"$ifNull": ["$characters", []]}}
+        }},
         {"$sort": {"character_count": -1}},
         {"$limit": 10}
     ])
@@ -67,7 +70,6 @@ async def leaderboard(client: Client, message: Message) -> None:
     for i, user in enumerate(leaderboard_data, start=1):
         username = user.get('username', 'Unknown')
         first_name = html.escape(user.get('first_name', 'Unknown'))
-
         if len(first_name) > 10:
             first_name = first_name[:15] + '...'
         character_count = user['character_count']
@@ -81,7 +83,7 @@ async def stats(client: Client, message: Message) -> None:
         user_count = await user_collection.count_documents({})
         group_count = await group_user_totals_collection.distinct('group_id')
         group_count_count = len(group_count)
-
         await message.reply_text(f'<b>Total Users: {user_count}\nTotal Groups: {group_count_count}</b>')
     except Exception as e:
         print(e)
+        
