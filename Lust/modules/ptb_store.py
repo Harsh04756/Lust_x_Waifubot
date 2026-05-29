@@ -190,8 +190,8 @@ async def confirm_handler(_, query):
     if int(user_id) != query.from_user.id:
         return await query.answer(capsify("this is not for you, baka!"), show_alert=True)
 
-    user_id = int(user_id)  # Only convert user_id to int
-    char_id = char_id  # Keep char_id as string (preserve "022", "02", etc.)
+    user_id = int(user_id)  
+    char_id = char_id  
 
     try:
         char = await get_character(char_id)
