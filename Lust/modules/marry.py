@@ -72,9 +72,9 @@ async def handle_marriage(client, message, receiver_id):
 
         for character in unique_characters:
             caption = (
-                f"{capsify('Congratulations')}! {message.from_user.first_name}, {capsify('you are now married')}! "
+                f"{capsify('Congratulations')}! {message.from_user.first_name}, {capsify('you are now married ')}! "
                 f"{capsify('Here is your character')}:\n"
-                f"Name: {character['name']}\n"
+                f"Waifu: {character['name']}\n"
                 f"Rarity: {character['rarity']}\n"
                 f"Anime: {character['anime']}\n"
             )
@@ -104,7 +104,7 @@ async def handle_dice(client, message, receiver_id):
 
             for character in unique_characters:
                 caption = (
-                    f"{capsify('Congratulations')}! {message.from_user.first_name}, {capsify('you are now married')}! "
+                    f"{capsify('Congratulations')}! {message.from_user.first_name}, {capsify('Wow she accepted now you are married! 🪼')}! "
                     f"{capsify('Here is your character')}:\n"
                     f"Name: {character['name']}\n"
                     f"Rarity: {character['rarity']}\n"
@@ -119,7 +119,7 @@ async def handle_dice(client, message, receiver_id):
         else:
             await client.send_message(
                 chat_id=message.chat.id,
-                text=f"{message.from_user.first_name}, {capsify('your marriage proposal was rejected and she ran away')}! 🤡",
+                text=f"{message.from_user.first_name}, {capsify('your marriage proposal was rejected she walk away s')}! 🤧",
                 reply_to_message_id=message.id
             )
 
